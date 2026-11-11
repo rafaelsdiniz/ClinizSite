@@ -7,6 +7,7 @@ import { WhatsappFloat } from "@/components/whatsapp-float";
 import { MotionProvider } from "@/components/motion-provider";
 import { Preloader } from "@/components/preloader";
 import { CookieNotice } from "@/components/cookie-notice";
+import { UxGlobais } from "@/components/ux-globais";
 import { SITE } from "@/lib/site";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <WhatsappFloat />
           <CookieNotice />
+          <UxGlobais />
         </MotionProvider>
       </body>
     </html>

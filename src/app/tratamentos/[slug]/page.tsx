@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { GradeFina, MarcaDagua, PadraoLogo } from "@/components/decor";
 import { notFound } from "next/navigation";
-import { CheckCircle2, ChevronRight, Sparkles } from "lucide-react";
+import { CheckCircle2, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/reveal";
 import { CtaBand, FaqList, PageHero, TratamentoCard } from "@/components/sections";
 import { AgendarButton, SectionTitle, WhatsappButton } from "@/components/ui";
@@ -39,7 +39,7 @@ export default async function TratamentoPage({ params }: PageProps<"/tratamentos
 
   return (
     <>
-      <PageHero eyebrow="Tratamento" titulo={t.nome} intro={t.chamada} imagem={t.imagem} imagemAlt={t.imagemAlt} foco={t.foco}>
+      <PageHero trilha={[{ href: "/", label: "Início" }, { href: "/tratamentos", label: "Tratamentos" }, { label: t.nome }]} eyebrow="Tratamento" titulo={t.nome} intro={t.chamada} imagem={t.imagem} imagemAlt={t.imagemAlt} foco={t.foco}>
         <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
           <AgendarButton href={`/agendar?tipo=${t.slug}`} variant="white">
             Agendar avaliação
@@ -49,24 +49,6 @@ export default async function TratamentoPage({ params }: PageProps<"/tratamentos
           </WhatsappButton>
         </div>
       </PageHero>
-
-      <div className="border-b border-line bg-white">
-        <div className="container-site">
-          <nav aria-label="Trilha de navegação" className="py-4">
-            <ol className="flex flex-wrap items-center justify-center gap-1.5 text-sm text-muted">
-              <li className="flex items-center gap-1.5">
-                <Link href="/" className="transition hover:text-brand">Início</Link>
-                <ChevronRight className="size-3.5" aria-hidden />
-              </li>
-              <li className="flex items-center gap-1.5">
-                <Link href="/tratamentos" className="transition hover:text-brand">Tratamentos</Link>
-                <ChevronRight className="size-3.5" aria-hidden />
-              </li>
-              <li aria-current="page" className="font-medium text-ink">{t.nome}</li>
-            </ol>
-          </nav>
-        </div>
-      </div>
 
       {/* RESUMO EM TRÊS FATOS */}
       <section className="pt-16 sm:pt-20">
@@ -85,7 +67,8 @@ export default async function TratamentoPage({ params }: PageProps<"/tratamentos
       </section>
 
       {/* ENTENDA */}
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <MarcaDagua icone="dente" className="top-0 left-1/2 -z-10 size-[28rem] -translate-x-1/2 text-brand-100" girar={10} traco={0.25} />
         <div className="container-site grid gap-6 lg:grid-cols-2">
           <Reveal className="h-full bg-white p-8 ring-1 ring-line sm:p-10">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">Como funciona</h2>
@@ -137,7 +120,8 @@ export default async function TratamentoPage({ params }: PageProps<"/tratamentos
       </section>
 
       {/* BENEFÍCIOS E CUIDADOS */}
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <GradeFina className="-z-10" />
         <div className="container-site grid gap-6 lg:grid-cols-2">
           <Reveal className="h-full bg-white p-8 ring-1 ring-line sm:p-10">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
@@ -174,7 +158,8 @@ export default async function TratamentoPage({ params }: PageProps<"/tratamentos
       </section>
 
       {/* FAQ */}
-      <section className="section-y bg-mist">
+      <section className="section-y relative isolate overflow-hidden bg-mist">
+        <PadraoLogo className="-z-10 text-brand-200/60" />
         <div className="container-site">
           <Reveal>
             <SectionTitle eyebrow="Perguntas frequentes" title={<>Dúvidas sobre {t.nome.toLowerCase()}</>} />
@@ -186,7 +171,8 @@ export default async function TratamentoPage({ params }: PageProps<"/tratamentos
       </section>
 
       {/* OUTROS */}
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <MarcaDagua icone="fio" className="top-10 left-1/2 -z-10 hidden h-40 w-[34rem] -translate-x-1/2 text-brand-200 md:block" forca={25} />
         <div className="container-site">
           <Reveal>
             <SectionTitle eyebrow="Veja também" title="Outros tratamentos" />

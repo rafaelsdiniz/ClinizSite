@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
 import { whatsappLink } from "@/lib/site";
 import { TRATAMENTOS } from "@/lib/tratamentos";
 
@@ -12,6 +12,7 @@ const campo =
 
 export function ContatoForm() {
   const [enviado, setEnviado] = useState(false);
+  const [enviando, setEnviando] = useState(false);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,8 +23,15 @@ export function ContatoForm() {
       d.get("periodo") ? `Melhor período: ${d.get("periodo")}` : "",
       d.get("mensagem") ? `Mensagem: ${d.get("mensagem")}` : "",
     ].filter(Boolean);
-    window.open(whatsappLink(`(Teste do formulário do site)\n${linhas.join("\n")}`), "_blank", "noopener,noreferrer");
-    setEnviado(true);
+    setEnviando(true);
+    const url = whatsappLink(`\n${linhas.join("\n")}`);
+    const janela = window.open("", "_blank");
+    setTimeout(() => {
+      if (janela) janela.location.href = url;
+      else window.location.href = url;
+      setEnviando(false);
+      setEnviado(true);
+    }, 600);
   }
 
   return (
@@ -75,10 +83,20 @@ export function ContatoForm() {
         </p>
         <button
           type="submit"
+          disabled={enviando}
           className="group inline-flex shrink-0 items-center justify-center gap-2.5 bg-brand px-7 whitespace-nowrap py-3.5 font-semibold text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-600"
         >
-          Enviar pelo WhatsApp
-          <Send className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />
+          {enviando ? (
+            <>
+              <Loader2 className="size-4 animate-spin" aria-hidden />
+              Abrindo o WhatsApp...
+            </>
+          ) : (
+            <>
+              Enviar pelo WhatsApp
+              <Send className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />
+            </>
+          )}
         </button>
       </div>
     </form>

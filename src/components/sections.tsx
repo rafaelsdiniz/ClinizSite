@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, CalendarCheck, Plus, Quote } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CalendarCheck, ChevronRight, Plus, Quote } from "lucide-react";
 import { FadeIn, HeroMedia, ImageReveal, LinhaDesenho, Parallax, Reveal, SplitTitle } from "./reveal";
 import { AgendarButton, Eyebrow, SectionTitle, WhatsappButton } from "./ui";
 import { CurvaBase } from "./divisores";
+import { GradeFina, MarcaDagua } from "./decor";
 import type { Tratamento } from "@/lib/tratamentos";
 import { TRATAMENTOS } from "@/lib/tratamentos";
 import { DEPOIMENTOS, EQUIPE, PRIMEIRA_CONSULTA } from "@/lib/conteudo";
@@ -19,7 +20,9 @@ export function PageHero({
   foco = "50% 50%",
   children,
   compacto = false,
+  trilha,
 }: {
+  trilha?: { href?: string; label: string }[];
   eyebrow: string;
   titulo: string;
   /** trecho final do título, em itálico com o acento */
@@ -42,6 +45,28 @@ export function PageHero({
       </HeroMedia>
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/80 via-brand-900/65 to-ink/85" aria-hidden />
       <div className="container-site text-center">
+        {trilha && (
+          <FadeIn>
+            <nav aria-label="Trilha de navegação" className="mb-8">
+              <ol className="flex flex-wrap items-center justify-center gap-1.5 text-[0.8rem] text-white/65">
+                {trilha.map((t, i) => (
+                  <li key={t.label} className="flex items-center gap-1.5">
+                    {t.href ? (
+                      <Link href={t.href} className="transition hover:text-white">
+                        {t.label}
+                      </Link>
+                    ) : (
+                      <span aria-current="page" className="text-white">
+                        {t.label}
+                      </span>
+                    )}
+                    {i < trilha.length - 1 && <ChevronRight className="size-3.5" aria-hidden />}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </FadeIn>
+        )}
         <FadeIn>
           <Eyebrow tone="light">{eyebrow}</Eyebrow>
         </FadeIn>
@@ -170,7 +195,9 @@ export function FaqList({ perguntas, className = "mx-auto max-w-3xl" }: { pergun
 /* Primeira consulta: linha do tempo que se desenha, com degradê suave de fundo */
 export function PrimeiraConsulta() {
   return (
-    <section className="section-y bg-gradient-to-b from-white via-mist to-mist">
+    <section className="section-y relative isolate overflow-hidden bg-gradient-to-b from-white via-mist to-mist">
+      <GradeFina className="-z-10" />
+      <MarcaDagua icone="sorriso" className="bottom-6 left-1/2 -z-10 hidden h-40 w-[36rem] -translate-x-1/2 text-brand-200 md:block" forca={25} />
       <div className="container-site">
         <SectionTitle
           numero="03"

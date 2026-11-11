@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GradeFina } from "@/components/decor";
 import Link from "next/link";
 import { ListChecks } from "lucide-react";
 import { AgendamentoWizard } from "@/components/agendamento/wizard";
@@ -14,6 +15,7 @@ export default function AgendarPage() {
   return (
     <>
       <PageHero
+        trilha={[{ href: "/", label: "Início" }, { label: "Agendar consulta" }]}
         compacto
         eyebrow="Agendamento online"
         titulo="Agende sua"
@@ -31,7 +33,8 @@ export default function AgendarPage() {
           Ver meus agendamentos
         </Link>
       </PageHero>
-      <section className="bg-white pt-4 pb-24 sm:pb-32">
+      <section className="relative isolate overflow-hidden bg-white pt-4 pb-24 sm:pb-32">
+        <GradeFina className="-z-10" mascara="linear-gradient(to bottom, black, transparent 70%)" />
         <div className="container-site">
           <AgendamentoWizard />
         </div>

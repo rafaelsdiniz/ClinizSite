@@ -3,6 +3,8 @@ import { CalendarCheck, Clock, MapPin } from "lucide-react";
 import { Logo } from "./logo";
 import { ENDERECO, MAPA_URL, NAV, SITE, whatsappLink } from "@/lib/site";
 import { WhatsappIcon } from "./whatsapp-icon";
+import { LinkPreferencias } from "./cookie-notice";
+import { StatusAberto } from "./status-aberto";
 
 function Instagram({ className }: { className?: string }) {
   return (
@@ -56,6 +58,7 @@ export function Footer() {
               CEP {ENDERECO.cep}
             </span>
           </a>
+          <StatusAberto className="text-white/85" claro />
           <p className="flex gap-3">
             <Clock className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden />
             <span>
@@ -94,7 +97,13 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="container-site flex flex-col items-center justify-between gap-2 py-5 text-xs text-white/45 sm:flex-row">
-          <p>© 2026 Cliniz Odontologia</p>
+          <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            <span>© 2026 Cliniz Odontologia</span>
+            <Link href="/privacidade" className="transition hover:text-white">
+              Privacidade
+            </Link>
+            <LinkPreferencias className="transition hover:text-white" />
+          </p>
           <p>
             Desenvolvido por{" "}
             <a href={SITE.autorUrl} target="_blank" rel="noopener" className="text-white/70 transition hover:text-white">

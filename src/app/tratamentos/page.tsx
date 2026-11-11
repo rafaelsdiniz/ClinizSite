@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GradeFina, PadraoLogo } from "@/components/decor";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
@@ -18,6 +19,7 @@ export default function TratamentosPage() {
   return (
     <>
       <PageHero
+        trilha={[{ href: "/", label: "Início" }, { label: "Tratamentos" }]}
         eyebrow="Tratamentos"
         titulo="Cada sorriso pede um"
         destaque="plano próprio"
@@ -39,7 +41,8 @@ export default function TratamentosPage() {
         </nav>
       </PageHero>
 
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <GradeFina className="-z-10" mascara="linear-gradient(to bottom, black, transparent 40%, transparent 60%, black)" />
         <div className="container-site space-y-8">
           {TRATAMENTOS.map((t, i) => (
             <Reveal key={t.slug}>
@@ -88,7 +91,8 @@ export default function TratamentosPage() {
         </div>
       </section>
 
-      <section className="section-y bg-mist">
+      <section className="section-y relative isolate overflow-hidden bg-mist">
+        <PadraoLogo className="-z-10 text-brand-200/60" mascara="radial-gradient(ellipse at center, black, transparent 70%)" />
         <div className="container-site">
           <Reveal>
             <SectionTitle

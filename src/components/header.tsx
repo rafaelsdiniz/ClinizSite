@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, CalendarCheck, Menu, X } from "lucide-react";
 import { Logo } from "./logo";
-import { NAV } from "@/lib/site";
+import { NAV, SITE } from "@/lib/site";
+import { StatusAberto } from "./status-aberto";
 
 export function Header() {
   const pathname = usePathname();
@@ -40,7 +41,7 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
       <div
-        className={`mx-auto flex items-center justify-between gap-4 transition-all duration-500 ease-out-soft ${
+        className={`relative z-10 mx-auto flex items-center justify-between gap-4 transition-all duration-500 ease-out-soft ${
           claro
             ? "h-14 max-w-5xl bg-white/90 pr-2 pl-5 shadow-[0_12px_40px_-16px_rgb(11_26_54/0.35)] ring-1 ring-line/80 backdrop-blur-xl"
             : "h-16 max-w-[76rem] px-2 sm:px-5"
@@ -106,11 +107,11 @@ export function Header() {
         {open && (
           <motion.div
             id="menu-mobile"
-            initial={{ opacity: 0, y: -10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-2 max-h-[calc(100dvh-5.5rem)] max-w-5xl overflow-y-auto bg-white p-3 shadow-lift ring-1 ring-line lg:hidden"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 overflow-y-auto bg-white px-5 pt-24 pb-8 lg:hidden"
           >
             <nav aria-label="Menu móvel">
               <ul>
@@ -124,7 +125,7 @@ export function Header() {
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="flex items-center justify-between px-4 py-3.5 font-display text-[1.6rem] text-ink transition hover:bg-mist"
+                      className="flex items-center justify-between border-b border-line py-4 font-display text-[2rem] text-ink transition hover:pl-2 hover:text-brand"
                     >
                       {item.label}
                       <ArrowRight className="size-4 text-brand" aria-hidden />
@@ -135,12 +136,16 @@ export function Header() {
               <Link
                 href="/agendar"
                 onClick={() => setOpen(false)}
-                className="mt-2 flex items-center justify-center gap-2 bg-brand px-6 py-4 font-semibold text-white shadow-glow"
+                className="mt-8 flex items-center justify-center gap-2 bg-brand px-6 py-4 font-semibold text-white shadow-glow"
               >
                 <CalendarCheck className="size-5" aria-hidden />
                 Agendar consulta
               </Link>
-              <p className="px-4 pt-4 pb-2 text-center text-sm text-muted">Segunda a sexta, 8h às 19h. Sábado, 8h às 12h.</p>
+              <div className="mt-8 flex flex-col items-center gap-2 text-center text-sm text-muted">
+                <StatusAberto className="text-ink-soft" />
+                <p>Segunda a sexta, 8h às 19h. Sábado, 8h às 12h.</p>
+                <p>{SITE.enderecoLinha1}, {SITE.enderecoLinha2}</p>
+              </div>
             </nav>
           </motion.div>
         )}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GradeFina, MarcaDagua, PadraoLogo } from "@/components/decor";
 import Image from "next/image";
 import { Ear, Gem, Lightbulb, ShieldCheck, SprayCan, Recycle, Layers, GraduationCap } from "lucide-react";
 import { Reveal } from "@/components/reveal";
@@ -37,6 +38,7 @@ export default function SobrePage() {
   return (
     <>
       <PageHero
+        trilha={[{ href: "/", label: "Início" }, { label: "A clínica" }]}
         eyebrow="A clínica"
         titulo="Odontologia feita com"
         destaque="tempo e atenção"
@@ -45,7 +47,8 @@ export default function SobrePage() {
         imagemAlt="Dois dentistas analisando uma radiografia em um monitor com a paciente na cadeira"
       />
 
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <MarcaDagua icone="dente" className="-right-24 top-10 -z-10 hidden size-[26rem] text-brand-100 lg:block" girar={12} traco={0.25} />
         <div className="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <div className="relative aspect-[5/4] overflow-hidden shadow-lift">
@@ -71,7 +74,8 @@ export default function SobrePage() {
         </div>
       </section>
 
-      <section className="section-y bg-mist">
+      <section className="section-y relative isolate overflow-hidden bg-mist">
+        <PadraoLogo className="-z-10 text-brand-200/60" />
         <div className="container-site">
           <Reveal>
             <SectionTitle eyebrow="O que nos guia" title={<>Quatro compromissos <em className="text-brand">em cada consulta</em></>} />
@@ -95,7 +99,8 @@ export default function SobrePage() {
         </div>
       </section>
 
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <GradeFina className="-z-10" mascara="linear-gradient(to bottom, black, transparent 60%)" />
         <div className="container-site">
           <Reveal>
             <SectionTitle
@@ -139,7 +144,9 @@ export default function SobrePage() {
         </div>
       </section>
 
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <MarcaDagua icone="escova" className="-left-16 bottom-0 -z-10 hidden size-[20rem] text-brand-100 md:block" girar={6} />
+        <MarcaDagua icone="espelho" className="-right-16 bottom-0 -z-10 hidden size-[20rem] text-brand-100 md:block" girar={-6} />
         <div className="container-site">
           <Reveal>
             <SectionTitle

@@ -3,6 +3,8 @@ import { CalendarCheck, CheckCircle2, Clock, FileText, HeartHandshake, MapPin, M
 import { FadeIn, ImageReveal, Parallax, Reveal, SplitTitle } from "@/components/reveal";
 import { HeroVideo } from "@/components/hero-video";
 import { CurvaBase } from "@/components/divisores";
+import { GradeFina, MarcaDagua, PadraoLogo } from "@/components/decor";
+import { StatusAberto } from "@/components/status-aberto";
 import { AgendarButton, Eyebrow, LinkButton, SectionTitle, WhatsappButton } from "@/components/ui";
 import { Depoimentos, EquipeGrid, FaqList, PrimeiraConsulta, TratamentoCard } from "@/components/sections";
 import { DIFERENCIAIS, PERGUNTAS_GERAIS } from "@/lib/conteudo";
@@ -63,7 +65,9 @@ export default function Home() {
       </section>
 
       {/* MANIFESTO */}
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <MarcaDagua icone="escova" className="-left-16 top-16 -z-10 hidden size-[22rem] text-brand-200 md:block" girar={8} />
+        <MarcaDagua icone="espelho" className="-right-16 top-16 -z-10 hidden size-[22rem] text-brand-200 md:block" girar={-8} />
         <div className="container-site text-center">
           <Reveal>
             <p className="font-display text-[1.1rem] text-accent-ink italic">01</p>
@@ -94,7 +98,8 @@ export default function Home() {
       </section>
 
       {/* TRATAMENTOS */}
-      <section id="tratamentos" className="section-y scroll-mt-16 bg-mist pb-40 sm:pb-44">
+      <section id="tratamentos" className="section-y relative isolate scroll-mt-16 overflow-hidden bg-mist pb-40 sm:pb-44">
+        <PadraoLogo className="-z-10 text-brand-200/70" />
         <div className="container-site">
           <SectionTitle
             layout="split"
@@ -221,7 +226,8 @@ export default function Home() {
       </section>
 
       {/* EQUIPE */}
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <MarcaDagua icone="dente" className="top-8 left-1/2 -z-10 size-[30rem] -translate-x-1/2 text-brand-100" girar={10} traco={0.25} />
         <div className="container-site">
           <SectionTitle
             layout="split"
@@ -242,7 +248,9 @@ export default function Home() {
       <Depoimentos />
 
       {/* FAQ em duas colunas */}
-      <section className="section-y">
+      <section className="section-y relative isolate overflow-hidden">
+        <GradeFina className="-z-10" mascara="linear-gradient(to bottom, transparent, black 30%, black 70%, transparent)" />
+        <MarcaDagua icone="fio" className="right-0 bottom-0 -z-10 hidden h-48 w-[28rem] text-brand-200 lg:block" forca={30} />
         <div className="container-site grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
@@ -297,6 +305,7 @@ export default function Home() {
               </div>
               <div className="border-t border-line bg-mist p-8 sm:border-t-0 sm:border-l sm:p-10">
                 <p className="text-xs font-semibold tracking-[0.14em] text-muted uppercase">Horários</p>
+                <StatusAberto className="mt-3 text-ink-soft" />
                 <dl className="mt-4 divide-y divide-line">
                   {HORARIOS.map((h) => (
                     <div key={h.dias} className="flex justify-between gap-3 py-3 text-sm">
