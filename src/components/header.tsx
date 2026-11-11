@@ -4,18 +4,24 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, CalendarCheck, Menu, X } from "lucide-react";
 import { Logo } from "./logo";
-import { NAV, whatsappLink } from "@/lib/site";
-import { WhatsappIcon } from "./whatsapp-icon";
+import { NAV } from "@/lib/site";
 
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [rota, setRota] = useState(pathname);
+
+  // Fecha o menu ao trocar de página
+  if (rota !== pathname) {
+    setRota(pathname);
+    setOpen(false);
+  }
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -28,54 +34,64 @@ export function Header() {
     };
   }, [open]);
 
+  const claro = scrolled || open;
   const isActive = (href: string) => !href.includes("#") && (pathname === href || pathname.startsWith(href + "/"));
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-out-soft ${
-        scrolled || open
-          ? "border-b border-line/80 bg-white/85 shadow-[0_8px_30px_-18px_rgb(11_27_58/0.25)] backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent"
-      }`}
-    >
-      <div className="container-site flex h-[4.5rem] items-center justify-between gap-6">
-        <Link href="/" className="relative z-10 shrink-0 text-ink" aria-label="Cliniz, página inicial" onClick={() => setOpen(false)}>
-          <Logo className="h-8 w-auto sm:h-9" />
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4">
+      <div
+        className={`mx-auto flex items-center justify-between gap-4 transition-all duration-500 ease-out-soft ${
+          claro
+            ? "h-14 max-w-5xl bg-white/90 pr-2 pl-5 shadow-[0_12px_40px_-16px_rgb(11_26_54/0.35)] ring-1 ring-line/80 backdrop-blur-xl"
+            : "h-16 max-w-[76rem] px-2 sm:px-5"
+        }`}
+      >
+        <Link href="/" aria-label="Cliniz, página inicial" className={`shrink-0 transition-colors duration-500 ${claro ? "text-ink" : "text-white"}`}>
+          <Logo variant={claro ? "color" : "white"} className={`w-auto transition-all duration-500 ${claro ? "h-7" : "h-8 sm:h-9"}`} />
         </Link>
 
         <nav aria-label="Principal" className="hidden lg:block">
           <ul className="flex items-center gap-1">
-            {NAV.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`relative rounded-full px-4 py-2 text-[0.93rem] font-medium transition-colors ${
-                    isActive(item.href) ? "text-brand" : "text-ink-soft hover:text-ink"
-                  }`}
-                >
-                  {item.label}
-                  {isActive(item.href) && (
-                    <span className="absolute inset-x-4 -bottom-0.5 h-0.5 rounded-full bg-brand" aria-hidden />
-                  )}
-                </Link>
-              </li>
-            ))}
+            {NAV.map((item) => {
+              const ativo = isActive(item.href);
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={ativo ? "page" : undefined}
+                    className={`px-4 py-2 text-[0.92rem] font-medium transition-colors duration-300 ${
+                      claro
+                        ? ativo
+                          ? "bg-brand-50 text-brand"
+                          : "text-ink-soft hover:bg-mist hover:text-ink"
+                        : ativo
+                          ? "bg-white/15 text-white"
+                          : "text-white/85 hover:bg-white/10 hover:text-white"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
         <div className="flex items-center gap-2">
-          <a
-            href={whatsappLink()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[0.9rem] font-semibold text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-600 sm:inline-flex"
+          <Link
+            href="/agendar"
+            className={`hidden min-h-10 items-center gap-2 px-5 text-[0.88rem] font-semibold transition-all duration-300 hover:-translate-y-0.5 sm:inline-flex ${
+              claro ? "bg-brand text-white shadow-glow hover:bg-brand-600" : "bg-white text-brand-700 hover:bg-brand-50"
+            }`}
           >
-            <WhatsappIcon className="size-4" />
-            Agendar avaliação
-          </a>
+            <CalendarCheck className="size-4" aria-hidden />
+            Agendar consulta
+          </Link>
           <button
             type="button"
-            className="relative z-10 inline-flex size-11 items-center justify-center rounded-full text-ink ring-1 ring-line transition hover:ring-brand-300 lg:hidden"
+            className={`inline-flex size-10 items-center justify-center transition lg:hidden ${
+              claro ? "text-ink ring-1 ring-line hover:ring-brand-300" : "text-white ring-1 ring-white/40 hover:bg-white/10"
+            }`}
             aria-expanded={open}
             aria-controls="menu-mobile"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
@@ -90,44 +106,41 @@ export function Header() {
         {open && (
           <motion.div
             id="menu-mobile"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-line bg-white lg:hidden"
+            className="mx-auto mt-2 max-h-[calc(100dvh-5.5rem)] max-w-5xl overflow-y-auto bg-white p-3 shadow-lift ring-1 ring-line lg:hidden"
           >
-            <nav aria-label="Menu móvel" className="container-site flex h-full flex-col py-8">
-              <ul className="flex flex-col">
-                {[{ href: "/", label: "Início" }, ...NAV].map((item, i) => (
+            <nav aria-label="Menu móvel">
+              <ul>
+                {[{ href: "/", label: "Início" }, ...NAV, { href: "/agendar/meus", label: "Meus agendamentos" }].map((item, i) => (
                   <motion.li
                     key={item.href}
-                    initial={{ opacity: 0, x: -12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 * i + 0.05, duration: 0.35 }}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.04 * i + 0.05, duration: 0.3 }}
                   >
                     <Link
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="flex items-center justify-between border-b border-line py-4 font-display text-[2rem] leading-none text-ink"
+                      className="flex items-center justify-between px-4 py-3.5 font-display text-[1.6rem] text-ink transition hover:bg-mist"
                     >
                       {item.label}
-                      <span className="text-base text-brand" aria-hidden>
-                        →
-                      </span>
+                      <ArrowRight className="size-4 text-brand" aria-hidden />
                     </Link>
                   </motion.li>
                 ))}
               </ul>
-              <a
-                href={whatsappLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-brand px-6 py-4 font-semibold text-white shadow-glow"
+              <Link
+                href="/agendar"
+                onClick={() => setOpen(false)}
+                className="mt-2 flex items-center justify-center gap-2 bg-brand px-6 py-4 font-semibold text-white shadow-glow"
               >
-                <WhatsappIcon className="size-5" />
-                Agendar avaliação
-              </a>
-              <p className="mt-auto pt-8 text-sm text-muted">Segunda a sexta, 8h às 19h. Sábado, 8h às 12h.</p>
+                <CalendarCheck className="size-5" aria-hidden />
+                Agendar consulta
+              </Link>
+              <p className="px-4 pt-4 pb-2 text-center text-sm text-muted">Segunda a sexta, 8h às 19h. Sábado, 8h às 12h.</p>
             </nav>
           </motion.div>
         )}

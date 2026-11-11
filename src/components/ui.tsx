@@ -1,56 +1,57 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, CalendarCheck } from "lucide-react";
 import { whatsappLink } from "@/lib/site";
 import { WhatsappIcon } from "./whatsapp-icon";
+import { MaskReveal } from "./reveal";
 
-type BtnProps = {
-  children: React.ReactNode;
-  className?: string;
-  variant?: "primary" | "ghost" | "white" | "outline-white";
-};
+type Variant = "primary" | "secondary" | "white" | "glass";
 
 const base =
-  "group inline-flex items-center justify-center gap-2.5 rounded-full px-6 py-3.5 text-[0.95rem] font-semibold tracking-[-0.01em] transition-all duration-300 ease-out-soft";
-const variants = {
-  primary:
-    "bg-brand text-white shadow-glow hover:bg-brand-600 hover:-translate-y-0.5 hover:shadow-[0_22px_44px_-14px_rgb(30_79_216/0.65)]",
-  ghost:
-    "bg-white text-ink ring-1 ring-line hover:ring-brand-300 hover:text-brand hover:-translate-y-0.5 shadow-soft",
-  white: "bg-white text-brand-700 hover:bg-brand-50 hover:-translate-y-0.5 shadow-soft",
-  "outline-white": "text-white ring-1 ring-white/40 hover:bg-white/10 hover:ring-white/70",
+  "group inline-flex min-h-12 items-center justify-center gap-2.5 px-6 text-[0.95rem] font-semibold tracking-[-0.005em] transition-all duration-300 ease-out-soft active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50";
+
+export const buttonStyles: Record<Variant, string> = {
+  primary: `${base} bg-brand text-white shadow-glow hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-[0_20px_40px_-14px_rgb(29_78_216/0.7)]`,
+  secondary: `${base} bg-white text-ink ring-1 ring-line shadow-soft hover:-translate-y-0.5 hover:text-brand hover:ring-brand-300`,
+  white: `${base} bg-white text-brand-700 shadow-soft hover:-translate-y-0.5 hover:bg-brand-50`,
+  glass: `${base} bg-white/10 text-white ring-1 ring-white/35 backdrop-blur-md hover:bg-white/20 hover:ring-white/60`,
 };
 
-export function WhatsappButton({ children, className = "", variant = "primary", extra }: BtnProps & { extra?: string }) {
+type BtnProps = { children: React.ReactNode; className?: string; variant?: Variant };
+
+/** CTA principal do site: leva ao agendamento online. */
+export function AgendarButton({ children = "Agendar consulta", className = "", variant = "primary", href = "/agendar" }: Partial<BtnProps> & { href?: string }) {
   return (
-    <a
-      href={whatsappLink(extra)}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`${base} ${variants[variant]} ${className}`}
-    >
-      <WhatsappIcon className="size-[1.15rem] shrink-0" />
+    <Link href={href} className={`${buttonStyles[variant]} ${className}`}>
+      <CalendarCheck className="size-[1.1rem] shrink-0" aria-hidden />
+      {children}
+    </Link>
+  );
+}
+
+export function WhatsappButton({ children, className = "", variant = "secondary", extra }: BtnProps & { extra?: string }) {
+  return (
+    <a href={whatsappLink(extra)} target="_blank" rel="noopener noreferrer" className={`${buttonStyles[variant]} ${className}`}>
+      <WhatsappIcon className="size-[1.1rem] shrink-0" />
       {children}
     </a>
   );
 }
 
-export function LinkButton({ children, className = "", variant = "ghost", href }: BtnProps & { href: string }) {
+export function LinkButton({ children, className = "", variant = "secondary", href }: BtnProps & { href: string }) {
   return (
-    <Link href={href} className={`${base} ${variants[variant]} ${className}`}>
+    <Link href={href} className={`${buttonStyles[variant]} ${className}`}>
       {children}
       <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
     </Link>
   );
 }
 
-export function Eyebrow({ children, className = "", light = false }: { children: React.ReactNode; className?: string; light?: boolean }) {
+/** Subtítulo pequeno acima dos títulos: só texto. */
+export function Eyebrow({ children, className = "", tone = "brand" }: { children: React.ReactNode; className?: string; tone?: "brand" | "light" }) {
   return (
     <p
-      className={`inline-flex items-center gap-2.5 text-[0.78rem] font-semibold uppercase tracking-[0.16em] ${
-        light ? "text-brand-200" : "text-brand"
-      } ${className}`}
+      className={`text-[0.78rem] font-semibold uppercase tracking-[0.18em] ${tone === "light" ? "text-brand-200" : "text-brand"} ${className}`}
     >
-      <span className={`h-px w-7 ${light ? "bg-brand-300" : "bg-brand/60"}`} aria-hidden />
       {children}
     </p>
   );
@@ -60,46 +61,56 @@ export function SectionTitle({
   eyebrow,
   title,
   intro,
-  center = false,
   light = false,
   className = "",
+  as: Tag = "h2",
+  layout = "centro",
+  numero,
 }: {
   eyebrow?: string;
   title: React.ReactNode;
   intro?: React.ReactNode;
-  center?: boolean;
   light?: boolean;
   className?: string;
+  as?: "h1" | "h2";
+  /** centro: tudo centralizado. split: título à esquerda e apoio à direita. */
+  layout?: "centro" | "split";
+  /** número da seção, mostrado acima do título no layout centralizado */
+  numero?: string;
 }) {
+  const tituloCls = `font-display text-[2.35rem] leading-[1.06] text-balance sm:text-5xl lg:text-[3.5rem] ${light ? "text-white" : "text-ink"}`;
+  const introCls = `text-[1.05rem] leading-relaxed text-pretty ${light ? "text-white/75" : "text-muted"}`;
+
+  if (layout === "split") {
+    return (
+      <div className={`grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-12 ${className}`}>
+        <div className="lg:col-span-7">
+          {eyebrow && <Eyebrow tone={light ? "light" : "brand"}>{eyebrow}</Eyebrow>}
+          <Tag className={`mt-4 ${tituloCls}`}>
+            <MaskReveal>{title}</MaskReveal>
+          </Tag>
+        </div>
+        {intro && (
+          <div className={`lg:col-span-5 lg:border-l lg:pl-10 ${light ? "lg:border-white/20" : "lg:border-line"}`}>
+            <p className={introCls}>{intro}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div className={`${center ? "mx-auto text-center" : ""} max-w-2xl ${className}`}>
-      {eyebrow && <Eyebrow light={light}>{eyebrow}</Eyebrow>}
-      <h2
-        className={`mt-4 font-display text-[2.35rem] leading-[1.05] tracking-[-0.015em] text-balance sm:text-5xl lg:text-[3.4rem] ${
-          light ? "text-white" : "text-ink"
-        }`}
-      >
-        {title}
-      </h2>
-      {intro && (
-        <p className={`mt-5 text-[1.05rem] leading-relaxed text-pretty ${light ? "text-brand-100/85" : "text-muted"}`}>
-          {intro}
+    <div className={`mx-auto max-w-3xl text-center ${className}`}>
+      {numero && (
+        <p className={`font-display text-[1.1rem] italic ${light ? "text-accent" : "text-accent-ink"}`} aria-hidden>
+          {numero}
         </p>
       )}
+      {eyebrow && <Eyebrow tone={light ? "light" : "brand"} className={numero ? "mt-2" : ""}>{eyebrow}</Eyebrow>}
+      <Tag className={`mt-4 ${tituloCls}`}>
+        <MaskReveal>{title}</MaskReveal>
+      </Tag>
+      {intro && <p className={`mx-auto mt-5 max-w-xl ${introCls}`}>{intro}</p>}
     </div>
-  );
-}
-
-export function TextLink({ href, children, className = "" }: { href: string; children: React.ReactNode; className?: string }) {
-  return (
-    <Link
-      href={href}
-      className={`group inline-flex items-center gap-1.5 font-semibold text-brand transition-colors hover:text-brand-700 ${className}`}
-    >
-      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
-        {children}
-      </span>
-      <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
-    </Link>
   );
 }

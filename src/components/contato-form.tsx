@@ -8,7 +8,7 @@ import { TRATAMENTOS } from "@/lib/tratamentos";
 const PERIODOS = ["Manhã", "Tarde", "Noite (até 19h)", "Sábado pela manhã"];
 
 const campo =
-  "mt-2 block w-full rounded-2xl border-0 bg-mist px-4 py-3.5 text-ink ring-1 ring-line transition placeholder:text-muted/70 focus:bg-white focus:ring-2 focus:ring-brand focus:outline-none";
+  "mt-2 block w-full border-0 bg-mist px-4 py-3.5 text-ink ring-1 ring-line transition placeholder:text-muted/70 focus:bg-white focus:ring-2 focus:ring-brand focus:outline-none";
 
 export function ContatoForm() {
   const [enviado, setEnviado] = useState(false);
@@ -75,7 +75,7 @@ export function ContatoForm() {
         </p>
         <button
           type="submit"
-          className="group inline-flex shrink-0 items-center justify-center gap-2.5 rounded-full bg-brand px-7 whitespace-nowrap py-3.5 font-semibold text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-600"
+          className="group inline-flex shrink-0 items-center justify-center gap-2.5 bg-brand px-7 whitespace-nowrap py-3.5 font-semibold text-white shadow-glow transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-600"
         >
           Enviar pelo WhatsApp
           <Send className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden />

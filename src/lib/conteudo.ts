@@ -1,27 +1,35 @@
 export const EQUIPE = [
   {
+    id: "helena",
     nome: "Dra. Helena Duarte",
+    atende: ["avaliacao", "implantes-dentarios", "prevencao-e-limpeza"],
     papel: "Implantes e reabilitação oral",
     foto: "/img/equipe-1.webp",
     foco: "50% 22%",
     bio: "Diretora clínica da Cliniz. Gosta de casos que pedem planejamento cuidadoso e de explicar cada etapa até o paciente se sentir seguro.",
   },
   {
+    id: "caio",
     nome: "Dr. Caio Mendes",
+    atende: ["avaliacao", "ortodontia", "alinhadores-invisiveis"],
     papel: "Ortodontia e alinhadores",
     foto: "/img/equipe-2.webp",
     foco: "50% 20%",
     bio: "Acompanha cada tratamento ortodôntico com planejamento digital e retornos pontuais, do aparelho fixo aos alinhadores.",
   },
   {
+    id: "livia",
     nome: "Dra. Lívia Torres",
+    atende: ["avaliacao", "lentes-de-contato-dental", "clareamento-dental", "odontopediatria"],
     papel: "Estética do sorriso",
     foto: "/img/equipe-3.webp",
     foco: "50% 18%",
     bio: "Responsável pelas lentes de contato dental e clareamentos. Acredita que um bom resultado é aquele que ninguém percebe que foi feito.",
   },
   {
+    id: "andre",
     nome: "Dr. André Sales",
+    atende: ["avaliacao", "prevencao-e-limpeza", "odontopediatria", "clareamento-dental"],
     papel: "Clínica geral e periodontia",
     foto: "/img/equipe-4.webp",
     foco: "50% 20%",
@@ -71,7 +79,7 @@ export const DEPOIMENTOS = [
 export const PERGUNTAS_GERAIS = [
   {
     p: "Como agendo a primeira consulta?",
-    r: "Pelo WhatsApp. Você conta rapidamente o que procura e a recepção sugere os horários disponíveis com o profissional mais indicado para o seu caso.",
+    r: "Pelo agendamento online: você escolhe o tipo de consulta, o profissional, o dia e o horário em poucos passos. Se preferir, a recepção também agenda pelo WhatsApp.",
   },
   {
     p: "Quanto custa a avaliação?",

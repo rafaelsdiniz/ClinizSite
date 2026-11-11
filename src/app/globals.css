@@ -2,29 +2,41 @@
 
 @theme inline {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
 }
 
+/*
+  Paleta
+  - Azul da marca (matiz 224°) para ações e destaques.
+  - Neutros frios, levemente azulados, para texto e fundos.
+  - Acento complementar quente (champanhe, matiz 34°), só em detalhes pontuais.
+  Os pares de texto usados passam AA (4.5:1) no fundo em que aparecem.
+*/
 @theme {
-  --color-ink: #0b1b3a;
-  --color-ink-soft: #33435f;
-  --color-muted: #5a6a84;
-  --color-brand: #1e4fd8;
-  --color-brand-50: #f3f7ff;
-  --color-brand-100: #e4edff;
-  --color-brand-200: #c7d8ff;
-  --color-brand-300: #9dbbff;
-  --color-brand-400: #5b8aff;
-  --color-brand-600: #1843bd;
-  --color-brand-700: #13379c;
-  --color-brand-900: #0c235f;
-  --color-ice: #eef4fc;
-  --color-mist: #f7faff;
-  --color-line: #dde6f3;
+  --color-ink: #0b1a36;
+  --color-ink-soft: #2f3d58;
+  --color-muted: #536280;
+  --color-brand: #1d4ed8;
+  --color-brand-50: #f2f6ff;
+  --color-brand-100: #e2ebff;
+  --color-brand-200: #c5d6ff;
+  --color-brand-300: #9cb9ff;
+  --color-brand-400: #5f8cff;
+  --color-brand-600: #1840b8;
+  --color-brand-700: #133496;
+  --color-brand-800: #0f2a78;
+  --color-brand-900: #0b1f5c;
+  --color-accent: #e9b77a;
+  --color-accent-soft: #f7e3c8;
+  --color-accent-ink: #8a5212;
+  --color-ice: #edf3fc;
+  --color-mist: #f6f9fe;
+  --color-line: #dce4f0;
+  --color-danger: #b42318;
+  --color-success: #12795a;
 
-  --shadow-soft: 0 1px 2px rgb(11 27 58 / 0.04), 0 8px 24px -8px rgb(11 27 58 / 0.08);
-  --shadow-lift: 0 2px 4px rgb(11 27 58 / 0.04), 0 24px 48px -16px rgb(19 55 156 / 0.18);
-  --shadow-glow: 0 18px 40px -14px rgb(30 79 216 / 0.55);
+  --shadow-soft: 0 1px 2px rgb(11 26 54 / 0.04), 0 8px 24px -10px rgb(11 26 54 / 0.1);
+  --shadow-lift: 0 2px 4px rgb(11 26 54 / 0.04), 0 28px 56px -20px rgb(19 52 150 / 0.22);
+  --shadow-glow: 0 16px 36px -14px rgb(29 78 216 / 0.6);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -53,35 +65,47 @@ body {
 :focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 3px;
-  border-radius: 6px;
+  border-radius: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @utility container-site {
   width: 100%;
   margin-inline: auto;
-  max-width: 80rem;
+  max-width: 76rem;
   padding-inline: 1.25rem;
   @media (width >= 40rem) {
     padding-inline: 2rem;
   }
-  @media (width >= 80rem) {
-    padding-inline: 2.5rem;
+}
+
+@utility section-y {
+  padding-block: 5.5rem;
+  @media (width >= 64rem) {
+    padding-block: 7.5rem;
   }
 }
 
-/* Grade pontilhada suave usada em fundos */
-@utility bg-dots {
-  background-image: radial-gradient(rgb(30 79 216 / 0.13) 1px, transparent 1px);
-  background-size: 22px 22px;
+/* Títulos: Fraunces com eixo óptico e suavidade leve */
+@utility font-display {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-variation-settings: "SOFT" 50;
+  font-weight: 380;
+  letter-spacing: -0.02em;
 }
 
-/* FAQ: ícone gira quando aberto */
 details[open] .faq-icon {
   transform: rotate(45deg);
 }
@@ -92,5 +116,55 @@ details summary::-webkit-details-marker {
 @keyframes marquee {
   to {
     transform: translateX(-100%);
+  }
+}
+
+/* Abertura: escondida se já vista nesta sessão; some sozinha se o JavaScript falhar */
+.intro-vista [data-intro] {
+  display: none;
+}
+@keyframes intro-failsafe {
+  to {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+.intro-failsafe {
+  animation: intro-failsafe 0.3s linear 6s forwards;
+}
+
+@keyframes scroll-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+.scroll-dot {
+  animation: scroll-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes check-draw {
+  from {
+    stroke-dashoffset: 48;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.check-draw {
+  stroke-dasharray: 48;
+  animation: check-draw 0.6s var(--ease-out-soft) 0.25s both;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

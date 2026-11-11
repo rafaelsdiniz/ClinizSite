@@ -5,7 +5,7 @@ import { TRATAMENTOS } from "@/lib/tratamentos";
 const ATUALIZADO = "2026-11-10";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paginas = ["", "/tratamentos", "/sobre", "/contato"].map((p) => ({
+  const paginas = ["", "/tratamentos", "/sobre", "/contato", "/agendar"].map((p) => ({
     url: `${SITE.url}${p}`,
     lastModified: ATUALIZADO,
     changeFrequency: "monthly" as const,

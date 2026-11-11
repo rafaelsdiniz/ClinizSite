@@ -1,95 +1,106 @@
 import Link from "next/link";
+import { CalendarCheck, Clock, MapPin } from "lucide-react";
 import { Logo } from "./logo";
-import { HORARIOS, NAV, SITE, whatsappLink } from "@/lib/site";
-import { TRATAMENTOS } from "@/lib/tratamentos";
+import { ENDERECO, MAPA_URL, NAV, SITE, whatsappLink } from "@/lib/site";
 import { WhatsappIcon } from "./whatsapp-icon";
+
+function Instagram({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden>
+      <rect x="3" y="3" width="18" height="18" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+const linkCls = "transition-colors hover:text-white";
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-ink text-white">
-      <div
-        className="pointer-events-none absolute -top-40 right-[-10%] size-[34rem] rounded-full bg-brand/25 blur-[120px]"
-        aria-hidden
-      />
-      <div className="container-site relative pt-20 pb-10">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <Logo variant="white" className="h-9 w-auto" />
-            <p className="mt-6 max-w-xs leading-relaxed text-white/65">
-              Odontologia com planejamento digital, consulta sem pressa e cuidado em cada detalhe. Em {SITE.cidadeExtenso}.
-            </p>
+    <footer className="bg-ink text-white/70">
+      <div className="container-site grid gap-10 py-14 text-sm sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_auto] lg:gap-12">
+        <div>
+          <Logo variant="white" className="h-8 w-auto" />
+          <p className="mt-4 max-w-xs leading-relaxed">Odontologia com planejamento digital e consulta sem pressa, na Savassi.</p>
+          <div className="mt-5 flex gap-2">
             <a
               href={whatsappLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-brand-700 transition hover:-translate-y-0.5 hover:bg-brand-50"
+              aria-label="WhatsApp da Cliniz"
+              className="inline-flex size-10 items-center justify-center ring-1 ring-white/20 transition hover:bg-white hover:text-brand"
             >
               <WhatsappIcon className="size-4" />
-              Conversar no WhatsApp
+            </a>
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="inline-flex size-10 items-center justify-center ring-1 ring-white/20 transition hover:bg-white hover:text-brand"
+            >
+              <Instagram className="size-4" />
             </a>
           </div>
-
-          <nav aria-label="Rodapé" className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:col-span-8">
-            <div>
-              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">Navegação</h2>
-              <ul className="mt-5 space-y-3 text-white/75">
-                <li>
-                  <Link href="/" className="transition hover:text-white">Início</Link>
-                </li>
-                {NAV.map((n) => (
-                  <li key={n.href}>
-                    <Link href={n.href} className="transition hover:text-white">{n.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">Tratamentos</h2>
-              <ul className="mt-5 space-y-3 text-white/75">
-                {TRATAMENTOS.map((t) => (
-                  <li key={t.slug}>
-                    <Link href={`/tratamentos/${t.slug}`} className="transition hover:text-white">{t.nome}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="col-span-2 sm:col-span-1">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-300">Horários</h2>
-              <ul className="mt-5 space-y-3 text-white/75">
-                {HORARIOS.map((h) => (
-                  <li key={h.dias}>
-                    <span className="block text-white">{h.dias}</span>
-                    {h.horas}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 text-white/75">
-                <span className="block text-white">Localização</span>
-                {SITE.cidade}
-              </p>
-            </div>
-          </nav>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-white/50 md:flex-row md:items-start md:justify-between">
+        <div className="space-y-4">
+          <a href={MAPA_URL} target="_blank" rel="noopener noreferrer" className="flex gap-3 transition hover:text-white">
+            <MapPin className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden />
+            <span>
+              {SITE.enderecoLinha1}
+              <br />
+              {SITE.enderecoLinha2}
+              <br />
+              CEP {ENDERECO.cep}
+            </span>
+          </a>
+          <p className="flex gap-3">
+            <Clock className="mt-0.5 size-4 shrink-0 text-brand-300" aria-hidden />
+            <span>
+              Seg. a sex., 8h às 19h
+              <br />
+              Sáb., 8h às 12h
+            </span>
+          </p>
+        </div>
+
+        <nav aria-label="Rodapé">
+          <ul className="grid grid-cols-2 gap-x-6 gap-y-3 lg:grid-cols-1">
+            <li>
+              <Link href="/" className={linkCls}>Início</Link>
+            </li>
+            {NAV.map((n) => (
+              <li key={n.href}>
+                <Link href={n.href} className={linkCls}>{n.label}</Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/agendar/meus" className={linkCls}>Meus agendamentos</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <div>
+          <Link
+            href="/agendar"
+            className="inline-flex min-h-11 items-center gap-2 bg-white px-5 font-semibold text-brand-700 transition hover:-translate-y-0.5 hover:bg-brand-50"
+          >
+            <CalendarCheck className="size-4" aria-hidden />
+            Agendar consulta
+          </Link>
+        </div>
+      </div>
+      <div className="border-t border-white/10">
+        <div className="container-site flex flex-col items-center justify-between gap-2 py-5 text-xs text-white/45 sm:flex-row">
           <p>© 2026 Cliniz Odontologia</p>
-          <div className="max-w-xl md:text-right">
-            <p>
-              Site demonstrativo criado por{" "}
-              <a
-                href={SITE.autorUrl}
-                target="_blank"
-                rel="noopener"
-                className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition hover:text-white hover:decoration-white"
-              >
-                Rafael Diniz
-              </a>
-              .
-            </p>
-            <p className="mt-1">
-              A Cliniz é uma marca fictícia: nomes, depoimentos e informações são ilustrativos. Fotos de banco de imagens.
-            </p>
-          </div>
+          <p>
+            Desenvolvido por{" "}
+            <a href={SITE.autorUrl} target="_blank" rel="noopener" className="text-white/70 transition hover:text-white">
+              Rafael Diniz
+            </a>
+          </p>
         </div>
       </div>
     </footer>

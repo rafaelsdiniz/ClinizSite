@@ -1,4 +1,4 @@
-# Créditos das imagens
+# Créditos das imagens e vídeos
 
 Todas as fotos são do Pexels (licença Pexels: uso comercial gratuito, sem atribuição obrigatória). Foram redimensionadas e convertidas para WebP. Em `equipe-3.webp`, o nome bordado no jaleco foi desfocado.
 
@@ -25,5 +25,7 @@ Todas as fotos são do Pexels (licença Pexels: uso comercial gratuito, sem atri
 | public/img/equipe-2.webp | https://www.pexels.com/photo/portrait-of-a-young-dentist-in-blue-scrubs-32205053/ |
 | public/img/equipe-3.webp | https://www.pexels.com/photo/portrait-of-smiling-dentist-in-white-shirt-20596946/ |
 | public/img/equipe-4.webp | https://www.pexels.com/photo/professional-doctor-in-white-lab-coat-indoors-28516280/ |
+| public/video/heroi.mp4, heroi.webp | https://www.pexels.com/video/a-dentist-treating-a-patient-7803281/ |
+| public/video/heroi-celular.mp4, heroi-celular.webp | https://videos.pexels.com/video-files/7803464 (Pexels, mesma sessão de gravação) |
 
-Fontes: Instrument Serif e Plus Jakarta Sans (Google Fonts, SIL Open Font License). Logo e ícones da Cliniz criados para este projeto; ícones de interface do Lucide (ISC).
+Fontes: Fraunces e Plus Jakarta Sans (Google Fonts, SIL Open Font License). Logo e ícones da Cliniz criados para este projeto; ícones de interface do Lucide (ISC).

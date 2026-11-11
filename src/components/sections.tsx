@@ -1,117 +1,165 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Plus, Quote } from "lucide-react";
-import { Reveal } from "./reveal";
-import { Eyebrow, SectionTitle, WhatsappButton } from "./ui";
+import { ArrowRight, ArrowUpRight, CalendarCheck, Plus, Quote } from "lucide-react";
+import { FadeIn, HeroMedia, ImageReveal, LinhaDesenho, Parallax, Reveal, SplitTitle } from "./reveal";
+import { AgendarButton, Eyebrow, SectionTitle, WhatsappButton } from "./ui";
+import { CurvaBase } from "./divisores";
 import type { Tratamento } from "@/lib/tratamentos";
+import { TRATAMENTOS } from "@/lib/tratamentos";
 import { DEPOIMENTOS, EQUIPE, PRIMEIRA_CONSULTA } from "@/lib/conteudo";
 
-/* Cartão de tratamento com foto */
-export function TratamentoCard({
-  t,
-  className = "",
-  size = "md",
-  sizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw",
+/* Topo das páginas internas: foto cobrindo o fundo, véu, título revelado palavra a palavra */
+export function PageHero({
+  eyebrow,
+  titulo,
+  destaque,
+  intro,
+  imagem,
+  imagemAlt,
+  foco = "50% 50%",
+  children,
+  compacto = false,
 }: {
-  t: Tratamento;
-  className?: string;
-  size?: "md" | "lg";
-  sizes?: string;
+  eyebrow: string;
+  titulo: string;
+  /** trecho final do título, em itálico com o acento */
+  destaque?: string;
+  intro?: React.ReactNode;
+  imagem: string;
+  imagemAlt: string;
+  foco?: string;
+  children?: React.ReactNode;
+  compacto?: boolean;
 }) {
   return (
-    <Link
-      href={`/tratamentos/${t.slug}`}
-      className={`group relative isolate flex min-h-[22rem] flex-col justify-end overflow-hidden rounded-[1.75rem] bg-ink p-6 text-white shadow-soft sm:p-7 ${className}`}
+    <section
+      className={`relative isolate flex items-center overflow-hidden bg-ink text-white ${
+        compacto ? "min-h-[26rem] pt-32 pb-24 sm:min-h-[30rem]" : "min-h-[36rem] pt-36 pb-28 sm:min-h-[40rem]"
+      }`}
     >
-      <Image
-        src={t.imagem}
-        alt={t.imagemAlt}
-        fill
-        sizes={sizes}
-        className="-z-20 object-cover transition-transform duration-[1.2s] ease-out-soft group-hover:scale-[1.06]"
-        style={{ objectPosition: t.foco }}
-      />
-      <div
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/0 transition-opacity duration-500 group-hover:from-brand-900/95"
-        aria-hidden
-      />
-      <span
-        className="absolute top-5 right-5 inline-flex size-11 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/30 backdrop-blur-md transition-all duration-500 ease-out-soft group-hover:rotate-45 group-hover:bg-white group-hover:text-brand"
-        aria-hidden
-      >
-        <ArrowUpRight className="size-5" />
-      </span>
-      <h3 className={`font-display leading-[1.02] ${size === "lg" ? "text-[2.4rem] sm:text-5xl" : "text-[2rem]"}`}>{t.nome}</h3>
-      <p className={`mt-3 max-w-md text-white/80 ${size === "lg" ? "text-base" : "text-[0.95rem]"} leading-relaxed`}>
-        {t.resumo}
-      </p>
-    </Link>
-  );
-}
-
-/* Faixa de chamada final */
-export function CtaBand({
-  title = (
-    <>
-      Vamos conversar sobre <em className="text-brand-200">o seu sorriso?</em>
-    </>
-  ),
-  texto = "Conte pelo WhatsApp o que você procura. A recepção responde, tira as primeiras dúvidas e sugere o melhor horário para a sua avaliação.",
-}: {
-  title?: React.ReactNode;
-  texto?: string;
-}) {
-  return (
-    <section className="container-site py-20 sm:py-28">
-      <Reveal>
-        <div className="relative isolate overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand via-brand-600 to-brand-900 px-6 py-14 text-white shadow-lift sm:px-12 sm:py-16 lg:px-16 lg:py-20">
-          <div className="pointer-events-none absolute -top-24 -left-24 -z-10 size-80 rounded-full bg-brand-400/40 blur-3xl" aria-hidden />
-          <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.12] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:22px_22px]" aria-hidden />
-          <div className="grid items-center gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <Eyebrow light>Agende sua avaliação</Eyebrow>
-              <h2 className="mt-5 font-display text-[2.6rem] leading-[1.02] tracking-[-0.015em] text-balance sm:text-6xl">{title}</h2>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-brand-100/90">{texto}</p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <WhatsappButton variant="white">Agendar pelo WhatsApp</WhatsappButton>
-                <Link
-                  href="/contato"
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-white ring-1 ring-white/35 transition hover:bg-white/10 hover:ring-white/70"
-                >
-                  Outras formas de contato
-                </Link>
-              </div>
-            </div>
-            <div className="relative hidden lg:col-span-5 lg:block">
-              <div className="relative ml-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[1.75rem] ring-1 ring-white/20">
-                <Image src="/img/paciente-1.webp" alt="Mulher sorrindo com as mãos no rosto" fill sizes="384px" className="object-cover" style={{ objectPosition: "50% 30%" }} />
-              </div>
-              <div className="absolute -bottom-5 -left-2 rounded-2xl bg-white px-5 py-4 text-ink shadow-lift">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">Primeira consulta</p>
-                <p className="mt-1 font-display text-2xl leading-none">Avaliação completa</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Reveal>
+      <HeroMedia className="absolute inset-0 -z-20">
+        <Image src={imagem} alt={imagemAlt} fill preload sizes="100vw" className="object-cover" style={{ objectPosition: foco }} />
+      </HeroMedia>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/80 via-brand-900/65 to-ink/85" aria-hidden />
+      <div className="container-site text-center">
+        <FadeIn>
+          <Eyebrow tone="light">{eyebrow}</Eyebrow>
+        </FadeIn>
+        <SplitTitle
+          as="h1"
+          noTopo
+          delay={0.1}
+          className="mx-auto mt-5 max-w-4xl font-display text-[2.7rem] leading-[1.04] text-balance sm:text-6xl lg:text-[4.6rem]"
+          linhas={[[{ t: titulo }, ...(destaque ? [{ t: destaque, className: "italic text-accent" }] : [])]]}
+        />
+        {intro && (
+          <FadeIn delay={0.5}>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-white/80">{intro}</p>
+          </FadeIn>
+        )}
+        {children && <FadeIn delay={0.65}>{children}</FadeIn>}
+      </div>
+      <CurvaBase />
     </section>
   );
 }
 
-/* Lista de perguntas frequentes */
-export function FaqList({ perguntas }: { perguntas: readonly { p: string; r: string }[] }) {
+/* Cartão de tratamento: foto com selo, número, título, resumo e rodapé com duas ações */
+export function TratamentoCard({ t }: { t: Tratamento }) {
+  const n = TRATAMENTOS.findIndex((x) => x.slug === t.slug) + 1;
   return (
-    <div className="divide-y divide-line border-y border-line">
+    <article className="group relative flex h-full flex-col bg-white shadow-soft ring-1 ring-line/80 transition-all duration-500 ease-out-soft hover:-translate-y-1.5 hover:shadow-lift hover:ring-brand-200">
+      <div className="relative aspect-[4/3] overflow-hidden bg-ice">
+        <Image
+          src={t.imagem}
+          alt={t.imagemAlt}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover transition-transform duration-[1.4s] ease-out-soft group-hover:scale-[1.07]"
+          style={{ objectPosition: t.foco }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
+        <span className="absolute top-0 left-0 bg-white px-3 py-2 font-display text-sm text-brand">{String(n).padStart(2, "0")}</span>
+        <span className="absolute right-4 bottom-4 inline-flex size-10 translate-y-2 items-center justify-center bg-white text-brand opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100" aria-hidden>
+          <ArrowUpRight className="size-5" />
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col p-6 sm:p-7">
+        <p className="text-[0.72rem] font-semibold tracking-[0.16em] text-muted uppercase">{t.fatos[0].valor}</p>
+        <h3 className="mt-2 font-display text-[1.65rem] leading-tight text-ink">
+          <Link href={`/tratamentos/${t.slug}`} className="transition-colors after:absolute after:inset-0 group-hover:text-brand">
+            {t.nome}
+          </Link>
+        </h3>
+        <p className="mt-3 flex-1 leading-relaxed text-muted">{t.resumo}</p>
+      </div>
+      <div className="relative z-10 flex items-center justify-between border-t border-line px-6 py-4 sm:px-7">
+        <span className="inline-flex items-center gap-2 text-sm font-semibold text-ink-soft transition-colors group-hover:text-brand">
+          Saiba mais
+          <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
+        </span>
+        <Link
+          href={`/agendar?tipo=${t.slug}`}
+          className="inline-flex items-center gap-1.5 bg-brand-50 px-3 py-2 text-sm font-semibold text-brand transition hover:bg-brand hover:text-white"
+        >
+          <CalendarCheck className="size-4" aria-hidden />
+          Agendar
+        </Link>
+      </div>
+    </article>
+  );
+}
+
+/* Chamada final com foto de fundo em parallax */
+export function CtaBand({
+  titulo = "Seu próximo sorriso começa com",
+  destaque = "uma conversa",
+  texto = "Escolha o dia e o horário que funcionam para você. A confirmação aparece na hora, e a recepção fica à disposição para qualquer dúvida.",
+}: {
+  titulo?: string;
+  destaque?: string;
+  texto?: string;
+}) {
+  return (
+    <section className="relative isolate overflow-hidden bg-ink py-28 text-center text-white sm:py-36">
+      <Parallax className="absolute inset-0 -z-20">
+        <Image src="/img/sala.webp" alt="" fill sizes="100vw" className="object-cover" style={{ objectPosition: "50% 55%" }} />
+      </Parallax>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand/85 via-brand-900/90 to-ink/95" aria-hidden />
+      <div className="container-site">
+        <Reveal>
+          <Eyebrow tone="light">Agende sua avaliação</Eyebrow>
+        </Reveal>
+        <SplitTitle
+          className="mx-auto mt-5 max-w-3xl font-display text-[2.5rem] leading-[1.06] text-balance sm:text-6xl"
+          linhas={[[{ t: titulo }, { t: destaque, className: "italic text-accent" }]]}
+        />
+        <Reveal delay={0.2}>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/80">{texto}</p>
+          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
+            <AgendarButton variant="white">Agendar consulta</AgendarButton>
+            <WhatsappButton variant="glass">Falar no WhatsApp</WhatsappButton>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* Perguntas frequentes */
+export function FaqList({ perguntas, className = "mx-auto max-w-3xl" }: { perguntas: readonly { p: string; r: string }[]; className?: string }) {
+  return (
+    <div className={`divide-y divide-line border-y border-line ${className}`}>
       {perguntas.map((item, i) => (
-        <Reveal key={item.p} delay={Math.min(i * 0.04, 0.2)} y={14}>
-          <details className="group py-1" name="faq">
+        <Reveal key={item.p} delay={Math.min(i * 0.05, 0.25)} y={14}>
+          <details className="group" name="faq">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left text-[1.05rem] font-semibold text-ink transition-colors hover:text-brand sm:text-lg">
               {item.p}
-              <span className="faq-icon inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-ice text-brand transition-transform duration-300 group-hover:bg-brand-100">
+              <span className="faq-icon inline-flex size-9 shrink-0 items-center justify-center bg-ice text-brand transition-all duration-300 group-hover:bg-brand group-hover:text-white">
                 <Plus className="size-4" aria-hidden />
               </span>
             </summary>
-            <p className="max-w-3xl pb-6 pr-12 leading-relaxed text-muted">{item.r}</p>
+            <p className="pr-12 pb-6 leading-relaxed text-muted">{item.r}</p>
           </details>
         </Reveal>
       ))}
@@ -119,136 +167,117 @@ export function FaqList({ perguntas }: { perguntas: readonly { p: string; r: str
   );
 }
 
-/* Topo das páginas internas */
-export function PageHero({
-  eyebrow,
-  title,
-  intro,
-  children,
-}: {
-  eyebrow: string;
-  title: React.ReactNode;
-  intro?: React.ReactNode;
-  children?: React.ReactNode;
-}) {
+/* Primeira consulta: linha do tempo que se desenha, com degradê suave de fundo */
+export function PrimeiraConsulta() {
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-b from-ice to-white pt-36 pb-16 sm:pt-44 sm:pb-20">
-      <div className="bg-dots pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_top_right,black,transparent_65%)]" aria-hidden />
-      <div className="pointer-events-none absolute -top-32 right-[-8%] -z-10 size-[30rem] rounded-full bg-brand-200/50 blur-[100px]" aria-hidden />
+    <section className="section-y bg-gradient-to-b from-white via-mist to-mist">
       <div className="container-site">
-        <Reveal>
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-5 max-w-4xl font-display text-[2.9rem] leading-[1] tracking-[-0.02em] text-balance text-ink sm:text-7xl lg:text-[5.2rem]">
-            {title}
-          </h1>
-          {intro && <p className="mt-7 max-w-2xl text-lg leading-relaxed text-pretty text-muted">{intro}</p>}
-          {children}
+        <SectionTitle
+          numero="03"
+          eyebrow="Primeira consulta"
+          title={
+            <>
+              Como é a sua <em className="text-brand">primeira visita</em>
+            </>
+          }
+          intro="Sem pressa e sem surpresa. Você sai da avaliação entendendo o que tem, quais são as opções e quanto cada uma custa."
+        />
+        <div className="relative mt-16">
+          <LinhaDesenho className="absolute top-6 right-[12.5%] left-[12.5%] hidden h-px bg-brand-300 lg:block" />
+          <ol className="relative grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+            {PRIMEIRA_CONSULTA.map((etapa, i) => (
+              <Reveal as="li" key={etapa.titulo} delay={0.3 + i * 0.15} className="group flex flex-col items-center text-center">
+                <span className="relative inline-flex size-12 items-center justify-center bg-white font-display text-xl text-brand ring-1 ring-brand-300 transition-all duration-500 group-hover:bg-brand group-hover:text-white">
+                  {i + 1}
+                </span>
+                <h3 className="mt-6 text-lg font-semibold text-ink">{etapa.titulo}</h3>
+                <p className="mt-2.5 max-w-[16rem] leading-relaxed text-muted">{etapa.texto}</p>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+        <Reveal className="mt-14 flex justify-center">
+          <AgendarButton>Agendar minha avaliação</AgendarButton>
         </Reveal>
       </div>
     </section>
   );
 }
 
-/* Como funciona a primeira consulta */
-export function PrimeiraConsulta() {
-  return (
-    <section className="relative py-24 sm:py-32">
-      <div className="container-site">
-        <div className="grid gap-14 lg:grid-cols-12">
-          <Reveal className="lg:col-span-4">
-            <div className="lg:sticky lg:top-32">
-              <SectionTitle
-                eyebrow="Primeira consulta"
-                title={
-                  <>
-                    Como é a sua <em className="text-brand">primeira visita</em>
-                  </>
-                }
-                intro="Sem pressa e sem surpresa. Você sai da avaliação entendendo o que tem, quais são as opções e quanto cada uma custa."
-              />
-            </div>
-          </Reveal>
-          <ol className="grid gap-5 sm:grid-cols-2 lg:col-span-8">
-            {PRIMEIRA_CONSULTA.map((etapa, i) => (
-              <Reveal as="li" key={etapa.titulo} delay={i * 0.08} className="group relative h-full overflow-hidden rounded-[1.5rem] border border-line bg-white p-7 transition-all duration-500 ease-out-soft hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift sm:p-8">
-                  <span className="font-display text-6xl leading-none text-brand-200 transition-colors duration-500 group-hover:text-brand">
-                    0{i + 1}
-                  </span>
-                  <h3 className="mt-6 text-xl font-semibold tracking-[-0.01em] text-ink">{etapa.titulo}</h3>
-                  <p className="mt-3 leading-relaxed text-muted">{etapa.texto}</p>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* Equipe */
+/* Equipe: retrato revelado por máscara, bio no hover e rodapé com ação */
 export function EquipeGrid({ comBio = false }: { comBio?: boolean }) {
   return (
-    <ul className={`grid gap-x-4 gap-y-8 sm:gap-6 lg:grid-cols-4 ${comBio ? "sm:grid-cols-2" : "grid-cols-2"}`}>
+    <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-6 lg:grid-cols-4">
       {EQUIPE.map((m, i) => (
-        <Reveal as="li" key={m.nome} delay={i * 0.08} className="group">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[1.1rem] bg-ice sm:rounded-[1.5rem]">
-              <Image
-                src={m.foto}
-                alt={`Retrato de ${m.nome}`}
-                fill
-                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                className="object-cover transition-transform duration-[1.2s] ease-out-soft group-hover:scale-[1.05]"
-                style={{ objectPosition: m.foco }}
-              />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/30 to-transparent" aria-hidden />
+        <Reveal as="li" key={m.nome} delay={i * 0.1} className="group flex flex-col bg-white shadow-soft ring-1 ring-line/80 transition-shadow duration-500 hover:shadow-lift">
+          <ImageReveal className="relative aspect-[4/5] bg-ice" delay={i * 0.1}>
+            <Image
+              src={m.foto}
+              alt={`Retrato de ${m.nome}`}
+              fill
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              className="object-cover transition-transform duration-[1.4s] ease-out-soft group-hover:scale-[1.05]"
+              style={{ objectPosition: m.foco }}
+            />
+            <div className="absolute inset-0 hidden items-end bg-gradient-to-t from-ink/90 via-ink/40 to-transparent p-5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 lg:flex">
+              <p className="translate-y-3 text-sm leading-relaxed text-white/90 transition-transform duration-500 group-hover:translate-y-0">{m.bio}</p>
             </div>
-            <h3 className="mt-4 text-[0.98rem] font-semibold tracking-[-0.01em] text-ink sm:mt-5 sm:text-lg">{m.nome}</h3>
-            <p className="mt-1 text-[0.85rem] leading-snug font-medium text-brand sm:text-[0.95rem]">{m.papel}</p>
-            {comBio && <p className="mt-3 text-[0.95rem] leading-relaxed text-muted">{m.bio}</p>}
+          </ImageReveal>
+          <div className="flex flex-1 flex-col p-4 text-center sm:p-5">
+            <h3 className="text-[0.98rem] font-semibold text-ink sm:text-lg">{m.nome}</h3>
+            <p className="mt-1 text-[0.82rem] leading-snug font-medium text-brand sm:text-[0.92rem]">{m.papel}</p>
+            {comBio && <p className="mt-3 hidden flex-1 text-[0.92rem] leading-relaxed text-muted sm:block lg:hidden">{m.bio}</p>}
+          </div>
+          <Link
+            href="/agendar"
+            className="flex items-center justify-center gap-1.5 border-t border-line py-3 text-[0.82rem] font-semibold text-ink-soft transition-colors hover:bg-brand hover:text-white sm:text-sm"
+          >
+            <CalendarCheck className="size-4" aria-hidden />
+            Agendar
+          </Link>
         </Reveal>
       ))}
     </ul>
   );
 }
 
-/* Depoimentos */
-export function Depoimentos({ limite = 6 }: { limite?: number }) {
+/* Depoimentos sobre foto de fundo, com corte em V simétrico no topo */
+export function Depoimentos({ limite = 3 }: { limite?: number }) {
   const lista = DEPOIMENTOS.slice(0, limite);
   return (
-    <section className="relative isolate overflow-hidden bg-ice py-24 sm:py-32">
-      <div className="bg-dots pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_70%,transparent)]" aria-hidden />
+    <section className="relative isolate overflow-hidden bg-ink py-28 text-white [clip-path:polygon(0_0,50%_3.5rem,100%_0,100%_100%,0_100%)] sm:py-36">
+      <Parallax className="absolute inset-0 -z-20">
+        <Image src="/img/consulta-3d.webp" alt="" fill sizes="100vw" className="object-cover" />
+      </Parallax>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-ink/90 via-brand-900/85 to-ink/90" aria-hidden />
       <div className="container-site">
-        <Reveal>
-          <SectionTitle
-            center
-            eyebrow="Depoimentos"
-            title={
-              <>
-                Quem passou por aqui <em className="text-brand">conta como foi</em>
-              </>
-            }
-            intro="Relatos de pacientes sobre a experiência na clínica."
-          />
-        </Reveal>
-        <ul className="-mx-5 mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:mt-16 md:block md:columns-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:columns-3">
+        <SectionTitle
+          light
+          numero="05"
+          eyebrow="Depoimentos"
+          title={
+            <>
+              Quem passou por aqui <em className="text-accent">conta como foi</em>
+            </>
+          }
+        />
+        <ul className="-mx-5 mt-14 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:none] sm:-mx-8 sm:px-8 md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
           {lista.map((d, i) => (
-            <li key={d.nome} className="w-[85%] shrink-0 snap-center md:mb-6 md:w-auto md:break-inside-avoid">
-              <Reveal delay={(i % 3) * 0.08} className="h-full">
-                <figure className="h-full rounded-[1.5rem] bg-white p-7 shadow-soft ring-1 ring-line/70 transition-all duration-500 ease-out-soft hover:-translate-y-1 hover:shadow-lift sm:p-8">
-                  <Quote className="size-7 text-brand-300" aria-hidden />
-                  <blockquote className="mt-5 text-[1.05rem] leading-relaxed text-ink-soft">“{d.texto}”</blockquote>
-                  <figcaption className="mt-7 flex items-center gap-3 border-t border-line pt-5">
-                    <span className="inline-flex size-10 items-center justify-center rounded-full bg-brand-100 font-semibold text-brand-700" aria-hidden>
-                      {d.nome.charAt(0)}
-                    </span>
-                    <span>
-                      <span className="block font-semibold text-ink">{d.nome}</span>
-                      <span className="block text-sm text-muted">{d.tratamento}</span>
-                    </span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            </li>
+            <Reveal as="li" key={d.nome} delay={i * 0.12} className="w-[86%] shrink-0 snap-center md:w-auto">
+              <figure className="flex h-full flex-col bg-white/[0.07] p-7 ring-1 ring-white/15 backdrop-blur-md transition-all duration-500 ease-out-soft hover:-translate-y-1 hover:bg-white/[0.12] sm:p-8">
+                <Quote className="size-8 text-accent" aria-hidden />
+                <blockquote className="mt-5 flex-1 font-display text-[1.2rem] leading-relaxed text-white/95">“{d.texto}”</blockquote>
+                <figcaption className="mt-7 flex items-center gap-3 border-t border-white/15 pt-5">
+                  <span className="inline-flex size-10 items-center justify-center bg-brand text-sm font-semibold text-white" aria-hidden>
+                    {d.nome.charAt(0)}
+                  </span>
+                  <span>
+                    <span className="block font-semibold">{d.nome}</span>
+                    <span className="block text-sm text-white/65">{d.tratamento}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            </Reveal>
           ))}
         </ul>
       </div>
