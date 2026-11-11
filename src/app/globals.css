@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
+}
+
+@theme {
+  --color-ink: #0b1b3a;
+  --color-ink-soft: #33435f;
+  --color-muted: #5a6a84;
+  --color-brand: #1e4fd8;
+  --color-brand-50: #f3f7ff;
+  --color-brand-100: #e4edff;
+  --color-brand-200: #c7d8ff;
+  --color-brand-300: #9dbbff;
+  --color-brand-400: #5b8aff;
+  --color-brand-600: #1843bd;
+  --color-brand-700: #13379c;
+  --color-brand-900: #0c235f;
+  --color-ice: #eef4fc;
+  --color-mist: #f7faff;
+  --color-line: #dde6f3;
+
+  --shadow-soft: 0 1px 2px rgb(11 27 58 / 0.04), 0 8px 24px -8px rgb(11 27 58 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(11 27 58 / 0.04), 0 24px 48px -16px rgb(19 55 156 / 0.18);
+  --shadow-glow: 0 18px 40px -14px rgb(30 79 216 / 0.55);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-brand-200);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@utility container-site {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Grade pontilhada suave usada em fundos */
+@utility bg-dots {
+  background-image: radial-gradient(rgb(30 79 216 / 0.13) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* FAQ: ícone gira quando aberto */
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
