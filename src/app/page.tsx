@@ -30,6 +30,8 @@ export default function Home() {
         </div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/55" aria-hidden />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-brand-900/55 via-transparent to-transparent" aria-hidden />
+        {/* Faixa escura no topo: o menu fica legível sobre qualquer quadro do vídeo */}
+        <div className="absolute inset-x-0 top-0 -z-10 h-44 bg-gradient-to-b from-ink/80 to-transparent" aria-hidden />
 
         <div className="container-site pt-32 pb-24 sm:pb-28 lg:pb-32">
           <SplitTitle

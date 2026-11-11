@@ -1,5 +1,5 @@
 export const ENDERECO = {
-  rua: "Rua Antônio de Albuquerque, 845",
+  rua: "Rua das Acácias Brancas, 845",
   complemento: "Sala 1102",
   bairro: "Savassi",
   cidade: "Belo Horizonte",
